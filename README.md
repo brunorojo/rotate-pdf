@@ -7,3 +7,8 @@
 ```shell
 dotnet run meu_arquivo.pdf
 ```
+
+## Gerar executável
+```shell
+dotnet publish -c Release -r win-x64
+```
