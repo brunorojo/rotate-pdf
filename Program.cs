@@ -11,6 +11,7 @@ class Program
         if (args.Length != 1)
         {
             Console.WriteLine("\n[ERRO] Comando inválido! Utilize: dotnet run [meu_arquivo.pdf]");
+            Console.ReadKey();
             return;
         }
 
@@ -18,11 +19,25 @@ class Program
         if (args[0].Length > MaxFileLength)
         {
             Console.WriteLine($"\n[Erro] O arquivo '{args}' excede o limite máximo de {MaxFileLength} caracteres.");
+            Console.ReadKey();
             return;
         }
 
         string inputFilePath = args[0];
-        string outputFilePath = "OUTPUT_" + inputFilePath;
+
+        // Verifica se o arquivo existe
+        if (!File.Exists(inputFilePath))
+        {
+            Console.WriteLine($"\n[ERRO] O arquivo '{inputFilePath}' não existe.");
+            Console.ReadKey();
+            return;
+        }
+
+        //string outputFilePath = "OUTPUT_" + inputFilePath;
+        string outputFileName = "OUTPUT_" + Path.GetFileName(inputFilePath);
+        string outputFilePath = Path.Combine(Path.GetDirectoryName(inputFilePath), outputFileName);
+        Console.WriteLine("filename:" + outputFileName);
+        Console.WriteLine("filepath:" + outputFilePath);
 
         try
         {
@@ -39,12 +54,13 @@ class Program
                 document.Save(outputFilePath);
             }
 
-
             Console.WriteLine($"\nArquivo PDF girado com sucesso! {outputFilePath}");
+
         }
         catch (Exception ex)
         {
             Console.WriteLine($"\n[ERRO] Erro ao processar o arquivo: {ex.Message}");
         }
+        Console.ReadKey();
     }
 }

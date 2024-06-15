@@ -1,14 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<NeutralLanguage>pt-BR</NeutralLanguage>
+		<PublishTrimmed>true</PublishTrimmed>
+		<FileVersion>1.0.0.1</FileVersion>
+		<Authors>Bruno Rojo</Authors>
+		<Company>[BR] Apps</Company>
+		<Product>Rotate PDF</Product>
+		<AssemblyName>RotatePdf.exe</AssemblyName>
+		<Description>Programa para girar arquivos PDF em 180º</Description>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="PdfSharpCore" Version="1.3.63" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="PdfSharpCore" Version="1.3.63" />
+	</ItemGroup>
 
 </Project>
