@@ -1,48 +1,40 @@
 ﻿using PdfSharpCore.Pdf;
 using PdfSharpCore.Pdf.IO;
+using RotatePdf;
 
 class Program
 {
     static void Main(string[] args)
     {
-        const int MaxFileLength = 128;
+        //Verifica argumentos se null ou vazio
 
-        // Verifica quantidade de argumentos
-        if (args.Length != 1)
-        {
-            Console.WriteLine("\n[ERRO] Comando inválido! Utilize: dotnet run [meu_arquivo.pdf]");
-            Console.ReadKey();
-            return;
-        }
+        var validate = new Validate();
+        validate.IsArgsNullOrEmpty(args);
+        validate.IsFileExist(args[0]);
 
-        //Verifica tamanho do arquivo
-        if (args[0].Length > MaxFileLength)
-        {
-            Console.WriteLine($"\n[Erro] O arquivo '{args}' excede o limite máximo de {MaxFileLength} caracteres.");
-            Console.ReadKey();
-            return;
-        }
+        string input = args[0].ToString();
+        Console.Clear();
 
-        string inputFilePath = args[0];
+        //args[0] = "C:\\Users\\bruno\\source\\RotatePdf\\arquivo-pdf.pdf";//simulando arrasto de arquivo
 
-        // Verifica se o arquivo existe
-        if (!File.Exists(inputFilePath))
-        {
-            Console.WriteLine($"\n[ERRO] O arquivo '{inputFilePath}' não existe.");
-            Console.ReadKey();
-            return;
-        }
 
-        //string outputFilePath = "OUTPUT_" + inputFilePath;
-        string outputFileName = "OUTPUT_" + Path.GetFileName(inputFilePath);
-        string outputFilePath = Path.Combine(Path.GetDirectoryName(inputFilePath), outputFileName);
-        Console.WriteLine("filename:" + outputFileName);
-        Console.WriteLine("filepath:" + outputFilePath);
+
+        string inputFileName = Path.GetFileName(input);
+        string inputFolderName = Path.GetDirectoryName(input);
+        string outputFileName = "OUTPUT_" + inputFileName;
+        string outputFilePath = Path.Combine(inputFolderName, outputFileName);
+
+        Console.WriteLine($"[INFO] ..........input: [{input}]");
+        Console.WriteLine($"[INFO] ..inputFileName: [{inputFileName}]");
+        Console.WriteLine($"[INFO] inputFolderName: [{inputFolderName}]");
+        Console.WriteLine($"[INFO] .outputFileName: [{outputFileName}]");
+        Console.WriteLine($"[INFO] .outputFilePath: [{outputFilePath}]");
+
 
         try
         {
             // Leia o arquivo PDF
-            using (PdfDocument document = PdfReader.Open(inputFilePath, PdfDocumentOpenMode.Modify))
+            using (PdfDocument document = PdfReader.Open(inputFileName, PdfDocumentOpenMode.Modify))
             {
                 // Girar cada página do documento PDF em 180º
                 foreach (PdfPage page in document.Pages)
@@ -51,15 +43,15 @@ class Program
                 }
 
                 // Salve o documento alterado
-                document.Save(outputFilePath);
+                document.Save(outputFileName);
             }
 
-            Console.WriteLine($"\nArquivo PDF girado com sucesso! {outputFilePath}");
+            Console.WriteLine($"\nArquivo PDF girado com sucesso! {outputFileName}");
 
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"\n[ERRO] Erro ao processar o arquivo: {ex.Message}");
+            Console.WriteLine($"\n[ERRO] Erro ao processar arquivo: {ex.Message}");
         }
         Console.ReadKey();
     }
